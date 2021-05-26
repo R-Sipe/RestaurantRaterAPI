@@ -83,10 +83,32 @@ namespace RestaurantRaterAPI.Controllers
         public async Task<IHttpActionResult> GetAllRatings()
         {
             List<Rating> ratings = await _context.Ratings.ToListAsync();
-            return Ok(ratings); //I guess it works, But not how i want it too. Will seek help after completing others
+            return Ok(ratings); //I guess it works, altough it lists multiple times, assuming it is becasue of three different ratings then average throwing it off. Will seek help after completing others
         }
 
         //GetRatingById?
-        //GetRatingByRestaurantId?
+        [HttpGet]
+        public async Task<IHttpActionResult> GetRatingsById(int id)
+        {
+            Rating ratings = await _context.Ratings.FindAsync(id);
+            if(ratings != null)
+            {
+                return Ok(ratings);
+            }
+            return NotFound();
+
+        }
+
+        ////GetRatingByRestaurantId?
+        //[HttpGet]
+        //public async Task<IHttpActionResult> GetRatingByRestaurantId(Restaurant restaurantId)
+        //{
+        //    Rating rating = await _context.Ratings.FindAsync(restaurantId);
+        //    if (rating != null)
+        //    {
+        //        return Ok(rating);
+        //    }
+        //    return NotFound();
+        //}
     }
 }

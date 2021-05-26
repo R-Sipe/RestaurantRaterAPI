@@ -25,7 +25,7 @@ namespace RestaurantRaterAPI.Models
             {
                 double totalAverageRating = 0;
 
-                foreach(Rating rating in Ratings)
+                foreach (Rating rating in Ratings)
                 {
                     totalAverageRating += rating.AverageRating;
                 }
@@ -34,8 +34,42 @@ namespace RestaurantRaterAPI.Models
         }
 
         //AverageFoodScore
+        public double FoodRating
+        {
+            get
+            {
+                double totalFoodScore = 0;
+
+                foreach (var rating in Ratings)
+                {
+                    totalFoodScore += rating.FoodScore;
+                }
+                return (Ratings.Count > 0) ? totalFoodScore / Ratings.Count : 0;
+            }
+        }
+
         //AverageEnviormentScore
+        public double EnviormentRating
+        {
+            get
+            {
+                IEnumerable<double> scores = Ratings.Select(rating => rating.EnviormentScore);
+
+                double totalEnviormentScore = scores.Sum();
+
+                return (Ratings.Count > 0) ? totalEnviormentScore / Ratings.Count() : 0;
+            }
+        }
+
         //AverageCleanlinessScore
+        public double CleanlinessScore
+        {
+            get
+            {
+                var totalScore = Ratings.Select(r => r.CleanlinessScore).Sum();
+                return (Ratings.Count > 0) ? totalScore / Ratings.Count : 0;
+            }
+        }
 
         public bool IsRecommended => Rating > 8.5;
     }
